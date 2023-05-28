@@ -1,0 +1,1130 @@
+1
+00:00:00,566 --> 00:00:02,377
+- [Instructor] Hi and
+welcome back to the course.
+
+2
+00:00:02,377 --> 00:00:04,932
+In this video and the next,
+we're going to go over
+
+3
+00:00:04,932 --> 00:00:06,536
+how easy it is
+
+4
+00:00:06,536 --> 00:00:11,082
+to add more to our API
+and make it more powerful.
+
+5
+00:00:11,082 --> 00:00:14,113
+We're going to do that by
+adding the concept of stores,
+
+6
+00:00:14,113 --> 00:00:15,280
+in this video.
+
+7
+00:00:16,377 --> 00:00:18,107
+Let's go over to our models folder,
+
+8
+00:00:18,107 --> 00:00:22,449
+because we're going to start
+by creating a new model
+
+9
+00:00:22,449 --> 00:00:24,794
+as opposed to a new resource.
+
+10
+00:00:24,794 --> 00:00:29,021
+That is because the resource
+normally has to use the model
+
+11
+00:00:29,021 --> 00:00:31,865
+to extract data from the database,
+
+12
+00:00:31,865 --> 00:00:34,782
+the model kind of stands on itself.
+
+13
+00:00:35,727 --> 00:00:37,336
+Let's right click the models folder
+
+14
+00:00:37,336 --> 00:00:38,223
+and create
+
+15
+00:00:38,223 --> 00:00:39,453
+a store
+
+16
+00:00:39,453 --> 00:00:40,286
+.py file
+
+17
+00:00:41,543 --> 00:00:43,552
+and what we're gonna put in the store.py
+
+18
+00:00:43,552 --> 00:00:46,849
+is a copy of the item model,
+so I'm just gonna select
+
+19
+00:00:46,849 --> 00:00:51,295
+everything there, copy it
+and paste it in the store.py.
+
+20
+00:00:51,295 --> 00:00:53,989
+Now, of course we're gonna
+change a few things here.
+
+21
+00:00:53,989 --> 00:00:56,868
+We're gonna call this StoreModel,
+
+22
+00:00:56,868 --> 00:00:59,539
+the table name is going to be stores,
+
+23
+00:00:59,539 --> 00:01:01,187
+it's not gonna have a price column,
+
+24
+00:01:01,187 --> 00:01:05,169
+it's just gonna have an id and a name.
+
+25
+00:01:05,169 --> 00:01:09,221
+The JSON method is going
+to be slightly different
+
+26
+00:01:09,221 --> 00:01:12,379
+and that is going to be,
+instead of name and price
+
+27
+00:01:12,379 --> 00:01:14,962
+it's going to be name and items
+
+28
+00:01:16,663 --> 00:01:18,996
+and here, we're going to put
+
+29
+00:01:19,937 --> 00:01:20,770
+self.items
+
+30
+00:01:21,934 --> 00:01:23,629
+and we're gonna get into exactly
+
+31
+00:01:23,629 --> 00:01:26,546
+how we get those items in a moment.
+
+32
+00:01:28,640 --> 00:01:29,996
+Okay?
+
+33
+00:01:29,996 --> 00:01:32,538
+The find_by_name is going
+to be exactly the same,
+
+34
+00:01:32,538 --> 00:01:35,483
+we're going to be able to
+retrieve a store by its name
+
+35
+00:01:35,483 --> 00:01:37,295
+and then we're gonna be
+able to save to the database
+
+36
+00:01:37,295 --> 00:01:39,268
+and delete it from the database as well.
+
+37
+00:01:39,268 --> 00:01:42,090
+So, nothing there is going to change.
+
+38
+00:01:42,090 --> 00:01:44,853
+Now I have to make sure
+that we have this self.items
+
+39
+00:01:44,853 --> 00:01:46,513
+thing.
+
+40
+00:01:46,513 --> 00:01:49,809
+Let's go to the item model, first,
+
+41
+00:01:49,809 --> 00:01:53,535
+and we're going to add something there.
+
+42
+00:01:53,535 --> 00:01:57,634
+What we're going to add
+here is a new column
+
+43
+00:01:57,634 --> 00:01:58,634
+on the item.
+
+44
+00:01:59,480 --> 00:02:02,397
+This column is going to be store_id
+
+45
+00:02:06,179 --> 00:02:08,025
+and this is going to be an integer
+
+46
+00:02:08,025 --> 00:02:12,192
+because it has to match
+exactly the store's id type
+
+47
+00:02:14,120 --> 00:02:15,710
+and it's also gonna have something else,
+
+48
+00:02:15,710 --> 00:02:17,543
+which is db.foreignkey
+
+49
+00:02:19,091 --> 00:02:20,067
+and the foreign key
+
+50
+00:02:20,067 --> 00:02:22,607
+is going to be stores,
+
+51
+00:02:22,607 --> 00:02:25,776
+which is the table name of the store,
+
+52
+00:02:25,776 --> 00:02:28,276
+.id, which is the column name.
+
+53
+00:02:29,352 --> 00:02:31,767
+Okay, so, what does this mean?
+
+54
+00:02:31,767 --> 00:02:32,951
+What is a foreign key
+
+55
+00:02:32,951 --> 00:02:36,202
+and why are we putting a store id here?
+
+56
+00:02:36,202 --> 00:02:40,254
+Well, let me show you
+a small diagram, here.
+
+57
+00:02:40,254 --> 00:02:42,564
+Imagine that we have, well, we do have,
+
+58
+00:02:42,564 --> 00:02:46,481
+these two models: the
+item and the store model.
+
+59
+00:02:48,497 --> 00:02:50,981
+If we create, say, three items
+
+60
+00:02:50,981 --> 00:02:55,148
+and they all have the same
+store id, which is two,
+
+61
+00:02:56,601 --> 00:03:00,455
+and then we have a store
+that has the id two
+
+62
+00:03:00,455 --> 00:03:02,276
+we can link them
+
+63
+00:03:02,276 --> 00:03:03,276
+in our minds
+
+64
+00:03:05,318 --> 00:03:09,057
+by saying that these three
+items belong inside this store
+
+65
+00:03:09,057 --> 00:03:12,122
+or they are somehow
+linked and that is because
+
+66
+00:03:12,122 --> 00:03:14,432
+we have the item, we have the store id
+
+67
+00:03:14,432 --> 00:03:16,278
+and therefore we can
+then go to the database
+
+68
+00:03:16,278 --> 00:03:19,278
+and find the store that has this id.
+
+69
+00:03:20,350 --> 00:03:23,563
+Similarly, if we have the store,
+
+70
+00:03:23,563 --> 00:03:26,256
+we can go to the items table and find out
+
+71
+00:03:26,256 --> 00:03:29,745
+which items have the same store id
+
+72
+00:03:29,745 --> 00:03:31,730
+as this store's id.
+
+73
+00:03:31,730 --> 00:03:34,656
+So, we have the store model,
+
+74
+00:03:34,656 --> 00:03:37,802
+we can find all the
+items that belong to it
+
+75
+00:03:37,802 --> 00:03:40,821
+and if we have an item
+we can find out the store
+
+76
+00:03:40,821 --> 00:03:42,528
+that it belongs to.
+
+77
+00:03:42,528 --> 00:03:45,999
+So, they are somehow linked and this link
+
+78
+00:03:45,999 --> 00:03:49,332
+is caused or created by the foreign key.
+
+79
+00:03:51,165 --> 00:03:54,672
+The id in the store is a primary key
+
+80
+00:03:54,672 --> 00:03:57,516
+and the store id in the
+item is a foreign key
+
+81
+00:03:57,516 --> 00:04:00,048
+because it has values
+
+82
+00:04:00,048 --> 00:04:02,730
+identical to the id values
+
+83
+00:04:02,730 --> 00:04:04,147
+of another table.
+
+84
+00:04:05,458 --> 00:04:07,583
+In this scenario, here,
+where we have three items
+
+85
+00:04:07,583 --> 00:04:10,752
+with store id two and a store with id two,
+
+86
+00:04:10,752 --> 00:04:14,514
+we would not be able to delete this store.
+
+87
+00:04:14,514 --> 00:04:16,105
+The relational database engine,
+
+88
+00:04:16,105 --> 00:04:18,589
+such as SQL Lite or Postgres or My SQL
+
+89
+00:04:18,589 --> 00:04:21,074
+would not let you delete this store
+
+90
+00:04:21,074 --> 00:04:24,255
+because there are foreign key references.
+
+91
+00:04:24,255 --> 00:04:26,414
+So, you'd first have to delete these items
+
+92
+00:04:26,414 --> 00:04:29,050
+or move them somewhere
+else, change the store id
+
+93
+00:04:29,050 --> 00:04:31,209
+before you can delete this store.
+
+94
+00:04:31,209 --> 00:04:35,376
+So, it allows us some degree
+of control or security
+
+95
+00:04:36,434 --> 00:04:39,580
+and in knowing that these two are linked
+
+96
+00:04:39,580 --> 00:04:40,997
+and it's not just
+
+97
+00:04:42,197 --> 00:04:43,606
+in our heads
+
+98
+00:04:43,606 --> 00:04:47,924
+and so by using a foreign key
+that gives us that security
+
+99
+00:04:47,924 --> 00:04:51,338
+that we can't delete things, for example.
+
+100
+00:04:51,338 --> 00:04:52,171
+Okay?
+
+101
+00:04:53,544 --> 00:04:56,435
+So, this is why we're adding
+this store id to the model
+
+102
+00:04:56,435 --> 00:04:58,954
+because then we're going to be able to say
+
+103
+00:04:58,954 --> 00:05:01,682
+what store do we belong
+to and we're gonna be able
+
+104
+00:05:01,682 --> 00:05:03,182
+to find the store.
+
+105
+00:05:04,039 --> 00:05:07,998
+But there would be a
+way to do that with SQL,
+
+106
+00:05:07,998 --> 00:05:12,085
+with a join and we're going
+to look at what a join is
+
+107
+00:05:12,085 --> 00:05:13,502
+in a future video
+
+108
+00:05:14,578 --> 00:05:17,078
+but we don't have to use joins
+
+109
+00:05:18,119 --> 00:05:20,696
+because SQLAlchemy does that for us.
+
+110
+00:05:20,696 --> 00:05:22,647
+All that we have to do is, now,
+
+111
+00:05:22,647 --> 00:05:23,480
+say store
+
+112
+00:05:24,319 --> 00:05:25,503
+is
+
+113
+00:05:25,503 --> 00:05:26,753
+db.relationship
+
+114
+00:05:28,405 --> 00:05:30,155
+storemodel and voila.
+
+115
+00:05:32,573 --> 00:05:35,430
+If you ever used joins in SQL in the past,
+
+116
+00:05:35,430 --> 00:05:37,252
+you'll be pleased to
+know that you no longer
+
+117
+00:05:37,252 --> 00:05:39,087
+have to do that.
+
+118
+00:05:39,087 --> 00:05:41,165
+What this does now is that it sees
+
+119
+00:05:41,165 --> 00:05:43,854
+that we have a store id
+
+120
+00:05:43,854 --> 00:05:46,293
+and therefore we can find
+
+121
+00:05:46,293 --> 00:05:50,460
+a store in the database
+that matches this store id.
+
+122
+00:05:52,527 --> 00:05:56,962
+So, now, every item model
+has a property store
+
+123
+00:05:56,962 --> 00:06:01,310
+that is the store which
+matches this store id
+
+124
+00:06:01,310 --> 00:06:02,143
+in its id.
+
+125
+00:06:04,178 --> 00:06:07,347
+Hopefully, all of that makes sense
+
+126
+00:06:07,347 --> 00:06:10,691
+but also we can do a back reference.
+
+127
+00:06:10,691 --> 00:06:13,338
+A back reference does the opposite.
+
+128
+00:06:13,338 --> 00:06:16,357
+It allows a store to see which items
+
+129
+00:06:16,357 --> 00:06:19,817
+are in the items database,
+or in the items table,
+
+130
+00:06:19,817 --> 00:06:23,508
+with the store id equal to its own id.
+
+131
+00:06:23,508 --> 00:06:28,361
+The way we do that is
+items equal db.relationship
+
+132
+00:06:28,361 --> 00:06:29,194
+itemmodel.
+
+133
+00:06:31,159 --> 00:06:32,576
+How easy is that?
+
+134
+00:06:33,458 --> 00:06:36,129
+Okay, so what that is doing it it's saying
+
+135
+00:06:36,129 --> 00:06:38,752
+we have a relationship with itemmodel
+
+136
+00:06:38,752 --> 00:06:41,458
+and then SQLAlchemy says, okay,
+there's a relationship there
+
+137
+00:06:41,458 --> 00:06:44,012
+what's the relationship?
+
+138
+00:06:44,012 --> 00:06:45,893
+And then it goes into the item
+
+139
+00:06:45,893 --> 00:06:49,097
+and it finds that there's a store id here
+
+140
+00:06:49,097 --> 00:06:54,020
+and then it goes, ah-ha,
+there's a store id in the item
+
+141
+00:06:54,020 --> 00:06:54,937
+which means
+
+142
+00:06:55,772 --> 00:06:58,772
+that one item is related to a store.
+
+143
+00:07:00,277 --> 00:07:03,493
+Therefore there could
+be more than one item
+
+144
+00:07:03,493 --> 00:07:06,303
+related to the same store.
+
+145
+00:07:06,303 --> 00:07:08,148
+There could be two items
+related to the store,
+
+146
+00:07:08,148 --> 00:07:12,456
+like in this example or three
+items related to the store.
+
+147
+00:07:12,456 --> 00:07:13,985
+So it knows
+
+148
+00:07:13,985 --> 00:07:16,318
+that the store and the item,
+
+149
+00:07:17,399 --> 00:07:21,184
+this variable here, is a single store,
+
+150
+00:07:21,184 --> 00:07:25,647
+i.e.: there's only one store
+that and item is related to
+
+151
+00:07:25,647 --> 00:07:28,564
+but the items variable in the store
+
+152
+00:07:29,467 --> 00:07:32,996
+can be many items, so, therefore,
+
+153
+00:07:32,996 --> 00:07:35,666
+if we go to the store this variable here
+
+154
+00:07:35,666 --> 00:07:39,892
+is a list of item models
+because it knows that it is a
+
+155
+00:07:39,892 --> 00:07:41,413
+many-to-one relationship.
+
+156
+00:07:41,413 --> 00:07:45,767
+There could be many items
+with the same store id.
+
+157
+00:07:45,767 --> 00:07:47,636
+So, hopefully all that makes sense
+
+158
+00:07:47,636 --> 00:07:50,887
+and now we can go back
+here into self.items
+
+159
+00:07:50,887 --> 00:07:52,304
+and we can access
+
+160
+00:07:53,757 --> 00:07:55,766
+each of the item JSONs.
+
+161
+00:07:55,766 --> 00:07:58,552
+What we're gonna do is,
+as you know already,
+
+162
+00:07:58,552 --> 00:08:01,675
+we're gonna replicate what
+we have in our item list
+
+163
+00:08:01,675 --> 00:08:02,758
+get endpoint.
+
+164
+00:08:04,404 --> 00:08:05,888
+Item.json
+
+165
+00:08:05,888 --> 00:08:06,805
+for item in
+
+166
+00:08:07,762 --> 00:08:08,595
+self.items
+
+167
+00:08:09,875 --> 00:08:11,042
+and that's it.
+
+168
+00:08:12,046 --> 00:08:13,764
+Now, there's an important thing here
+
+169
+00:08:13,764 --> 00:08:17,445
+that often goes overlooked and that is
+
+170
+00:08:17,445 --> 00:08:20,000
+that there is a relationship
+that has been created
+
+171
+00:08:20,000 --> 00:08:23,645
+as soon as we create a store model.
+
+172
+00:08:23,645 --> 00:08:27,140
+So, if we have many stores
+and we have many items
+
+173
+00:08:27,140 --> 00:08:29,311
+whenever we create a store model,
+
+174
+00:08:29,311 --> 00:08:33,375
+we're going to go and create
+an object for each item
+
+175
+00:08:33,375 --> 00:08:36,404
+in a database that matches that store id.
+
+176
+00:08:36,404 --> 00:08:38,610
+Now, if we have very
+few items, that's fine
+
+177
+00:08:38,610 --> 00:08:40,293
+but if we have a lot of
+items that can be a really
+
+178
+00:08:40,293 --> 00:08:42,348
+expensive operation.
+
+179
+00:08:42,348 --> 00:08:44,682
+So, what we can do is
+we can tell SQLAlchemy
+
+180
+00:08:44,682 --> 00:08:46,515
+to not do that,
+
+181
+00:08:46,515 --> 00:08:49,015
+do not go into the items table
+
+182
+00:08:50,379 --> 00:08:53,955
+and create an object for each item yet.
+
+183
+00:08:53,955 --> 00:08:55,417
+The way we do that is we say
+
+184
+00:08:55,417 --> 00:08:56,667
+lazy is dynamic
+
+185
+00:08:58,494 --> 00:09:01,994
+and now whenever we access the JSON method
+
+186
+00:09:03,231 --> 00:09:04,938
+we're gonna get an error
+
+187
+00:09:04,938 --> 00:09:06,057
+unless
+
+188
+00:09:06,057 --> 00:09:07,357
+we use
+
+189
+00:09:07,357 --> 00:09:08,190
+.all.
+
+190
+00:09:09,296 --> 00:09:11,061
+So what's the key take, here?
+
+191
+00:09:11,061 --> 00:09:13,522
+When we use lazy equals dynamic,
+
+192
+00:09:13,522 --> 00:09:16,692
+self.items no longer is a list of items,
+
+193
+00:09:16,692 --> 00:09:20,430
+now it is a query builder
+that has the ability
+
+194
+00:09:20,430 --> 00:09:23,228
+to look into the items table,
+
+195
+00:09:23,228 --> 00:09:26,061
+then we can use .all to
+retrieve all of the items
+
+196
+00:09:26,061 --> 00:09:27,228
+in that table.
+
+197
+00:09:28,151 --> 00:09:32,040
+Which means that until
+we call the JSON method
+
+198
+00:09:32,040 --> 00:09:35,569
+we are not looking into the table,
+
+199
+00:09:35,569 --> 00:09:39,389
+which means that creating
+stores is very simple.
+
+200
+00:09:39,389 --> 00:09:41,435
+However, it also means that every time
+
+201
+00:09:41,435 --> 00:09:43,037
+we call the JSON method
+
+202
+00:09:43,037 --> 00:09:44,929
+we have to go into the table,
+
+203
+00:09:44,929 --> 00:09:49,887
+so then it is gonna be slower
+and what I mean with that is
+
+204
+00:09:49,887 --> 00:09:53,253
+we create a store so we
+load up all the items
+
+205
+00:09:53,253 --> 00:09:56,051
+and then we can call the
+JSON method many times
+
+206
+00:09:56,051 --> 00:09:58,303
+for free, essentially.
+
+207
+00:09:58,303 --> 00:10:01,391
+If we use lazy dynamic, every
+time we call the JSON method
+
+208
+00:10:01,391 --> 00:10:03,203
+we have to go into the table,
+
+209
+00:10:03,203 --> 00:10:05,107
+so then that is slower.
+
+210
+00:10:05,107 --> 00:10:07,939
+So, there's a trade-off there
+between speed of creation
+
+211
+00:10:07,939 --> 00:10:11,550
+of the store and speed of
+calling the JSON method
+
+212
+00:10:11,550 --> 00:10:15,717
+that you have to think about
+which one is more important.
+
+213
+00:10:18,168 --> 00:10:21,372
+In our case, because the
+store model gets created
+
+214
+00:10:21,372 --> 00:10:25,273
+when we wanna access the
+data, it's gonna be like that
+
+215
+00:10:25,273 --> 00:10:27,003
+in our resource, I'm gonna stick with
+
+216
+00:10:27,003 --> 00:10:30,358
+this way of doing things but,
+just food for thought, there,
+
+217
+00:10:30,358 --> 00:10:33,342
+something you have to
+take into consideration.
+
+218
+00:10:33,342 --> 00:10:35,223
+Of course, something else we have to do
+
+219
+00:10:35,223 --> 00:10:38,461
+is go to the item model and
+make sure that we're accepting
+
+220
+00:10:38,461 --> 00:10:41,206
+a store id there as well
+
+221
+00:10:41,206 --> 00:10:43,873
+and saving that to the database.
+
+222
+00:10:45,652 --> 00:10:48,717
+What that'll do is that'll
+make sure that the store id
+
+223
+00:10:48,717 --> 00:10:51,295
+for the specific item model we're creating
+
+224
+00:10:51,295 --> 00:10:53,680
+gets assigned the value that we pass in
+
+225
+00:10:53,680 --> 00:10:56,095
+and that that gets put in the database.
+
+226
+00:10:56,095 --> 00:10:58,301
+Now that we're here, let's
+go into the resources
+
+227
+00:10:58,301 --> 00:11:01,227
+and just make sure that
+we're accepting this as well
+
+228
+00:11:01,227 --> 00:11:02,980
+and we don't forget later.
+
+229
+00:11:02,980 --> 00:11:05,534
+I'm gonna copy the add argument
+
+230
+00:11:05,534 --> 00:11:07,275
+and paste it in, there.
+
+231
+00:11:07,275 --> 00:11:09,075
+Rename it to store id,
+
+232
+00:11:09,075 --> 00:11:11,176
+change the type to int
+
+233
+00:11:11,176 --> 00:11:12,884
+and change the help message to something
+
+234
+00:11:12,884 --> 00:11:17,051
+a bit more helpful, like
+every item needs a store id.
+
+235
+00:11:18,875 --> 00:11:20,141
+Now, something else to remember
+
+236
+00:11:20,141 --> 00:11:23,171
+is that whenever we create an item model
+
+237
+00:11:23,171 --> 00:11:26,294
+we're gonna have to pass in the store id.
+
+238
+00:11:26,294 --> 00:11:28,140
+So, for example, here in the post,
+
+239
+00:11:28,140 --> 00:11:29,951
+we are creating a new item,
+
+240
+00:11:29,951 --> 00:11:34,061
+the data that is parsed
+from the parse args method
+
+241
+00:11:34,061 --> 00:11:38,228
+is now going to contain a store
+id that we need to pass in
+
+242
+00:11:39,831 --> 00:11:43,453
+and similarly, down here in the put method
+
+243
+00:11:43,453 --> 00:11:46,686
+we have to make sure to include
+
+244
+00:11:46,686 --> 00:11:47,543
+data
+
+245
+00:11:47,543 --> 00:11:48,376
+store id.
+
+246
+00:11:49,679 --> 00:11:52,222
+I'll leave it up to you
+to change the store id
+
+247
+00:11:52,222 --> 00:11:56,866
+in here, if you want as
+well, which you can do.
+
+248
+00:11:56,866 --> 00:11:57,852
+Okay?
+
+249
+00:11:57,852 --> 00:12:01,637
+Also remember that data
+price and data store id
+
+250
+00:12:01,637 --> 00:12:03,304
+can be simplified to
+
+251
+00:12:05,838 --> 00:12:07,274
+data
+
+252
+00:12:07,274 --> 00:12:09,724
+that is just going to
+exactly the same thing.
+
+253
+00:12:09,724 --> 00:12:13,207
+It's going to pass in price as data price
+
+254
+00:12:13,207 --> 00:12:15,707
+and store id as data store id,
+
+255
+00:12:17,503 --> 00:12:21,503
+so that we can do that,
+if you find that easier.
+
+256
+00:12:22,936 --> 00:12:23,769
+Okay?
+
+257
+00:12:23,769 --> 00:12:25,188
+So, that's everything for this video.
+
+258
+00:12:25,188 --> 00:12:27,151
+Now we've created the store model
+
+259
+00:12:27,151 --> 00:12:28,683
+and we've linked it up with the item.
+
+260
+00:12:28,683 --> 00:12:31,214
+In the next video we're going
+to create the store resource,
+
+261
+00:12:31,214 --> 00:12:32,989
+so, I'll see you there.
+
